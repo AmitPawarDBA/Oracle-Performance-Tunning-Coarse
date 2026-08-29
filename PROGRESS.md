@@ -1,6 +1,6 @@
 # Oracle Performance Course — Progress
 
-Last updated: 2026-08-28, by session that completed Days 1-6 (content + labs + PPT decks) and committed them locally.
+Last updated: 2026-08-29, by session that completed Days 1-6 (content + labs + PPT decks), then verified/hardened re-runnability of the lab scripts.
 
 ## Locked-in design (see docs/phase1-course-foundation.md for full detail)
 - 34-day roadmap (Hook Days 1-2 → Architecture Bootcamp Days 3-6 → Stages 1-14 → Capstone Day 34)
@@ -32,6 +32,7 @@ Last updated: 2026-08-28, by session that completed Days 1-6 (content + labs + P
 | Capstone | pending | depends on Day 34 |
 
 ## Session log (most recent first)
+- 2026-08-29: Audited every Day 1-6 setup.sql/demo.sql/reset.sql/cleanup.sql for re-runnability (the requirement that an instructor can test a day's demo before class, reset it, and run it again with no leftover state) — confirmed all six days already do this correctly (defensive drop-if-exists/CREATE OR REPLACE in setup.sql, unique DBMS_SCHEDULER job names, reset.sql returning to a fresh demo-ready state, cleanup.sql for full teardown). Found and closed one real gap: the master `setup/01-06` environment build was documented as "not idempotent, drop and recreate the user first" but had no script to do that — added `setup/rebuild_from_scratch.sql` (drops PERF_LAB user CASCADE + PERF_LAB_DATA tablespace) and a new README section explaining the two re-run levels (environment rebuild vs. per-day reset).
 - 2026-08-28: Completed Days 1-6: full content (dayNN-content.md), 7 SQL files each, and a validated+QA'd PPTX deck each (12, 12, 12, 12, 14, 11 slides respectively — Day 5's outline items map to 14 total slides, Day 6 combined its last two outline items into one recap slide). Built via parallel subagents using a shared `theme.js` pptxgenjs helper library. All decks passed `validate.py` structural QA, `markitdown` content QA, and full visual slide-by-slide inspection with no defects found. Cleaned up temporary QA artifacts (slide JPGs, intermediate PDFs) before committing. Committed locally; hand-off package prepared for the user to push from their own machine (sandbox still cannot push directly).
 - 2026-08-28: Built and delivered the oracle-performance-course-builder skill (.skill file) so future sessions can resume from PROGRESS.md instead of re-deriving decisions.
 - 2026-08-28: User pushed Phase 1 (revised, 34-day version) to GitHub main successfully from their own Windows machine after the sandbox's git proxy blocked a direct push (confirmed: blocks any non-preauthorized repo regardless of token).
